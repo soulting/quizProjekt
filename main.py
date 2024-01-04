@@ -7,7 +7,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import Session
 import psycopg2
 
-
 app = Flask(__name__)
 CORS(app)
 api = Api(app)
@@ -85,7 +84,6 @@ class GetUser(Resource):
         username = data.get('username')
         password = data.get('password')
 
-
         try:
             existing_user = User.query.filter_by(username=username, password=password).first()
             if existing_user:
@@ -113,7 +111,6 @@ class GetQuizHeaders(Resource):
         id_list = data.get('quiz_ids')
 
         lista_pytan = []
-
 
         try:
             for i in range(0, len(id_list)):
@@ -144,7 +141,7 @@ class SearchQuizzes(Resource):
         data = request.json
         frase = data.get('frase')
 
-        lista_quizow =[]
+        lista_quizow = []
 
         try:
             quizzes = Quizzes.query.all()
@@ -179,7 +176,6 @@ class GetQuestions(Resource):
             questions = Question.query.filter_by(quiz_id=id).all()
             if questions:
                 for question in questions:
-
                     data = {
                         "id": question.id,
                         "question": question.question,
@@ -228,7 +224,6 @@ class AddQuiz(Resource):
                 user.quiz_ids = list(set(new_quiz_list))
                 db.session.commit()
 
-
                 returnData = {
                     "accepted": True,
                     "new_quiz_list": user.quiz_ids
@@ -249,7 +244,6 @@ class DeleteQuiz(Resource):
         userId = data.get('userId')
         quizId = data.get('quizId')
 
-
         try:
             user = User.query.filter_by(id=userId).first()
             if user:
@@ -260,7 +254,6 @@ class DeleteQuiz(Resource):
 
                 user.quiz_ids = new_quiz_list
                 db.session.commit()
-
 
                 returnData = {
                     "new_quiz_list": user.quiz_ids
@@ -282,9 +275,6 @@ api.add_resource(SearchQuizzes, '/searchQuizzes')
 api.add_resource(GetQuestions, '/getQuestions')
 api.add_resource(AddQuiz, '/addQuiz')
 api.add_resource(DeleteQuiz, '/deleteQuiz')
-
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

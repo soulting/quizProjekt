@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class User(models.Model):
     pole1 = models.CharField(max_length=100)
     pole2 = models.IntegerField()
