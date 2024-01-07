@@ -88,6 +88,7 @@ class GetUser(Resource):
             existing_user = User.query.filter_by(username=username, password=password).first()
             if existing_user:
                 responseData = {
+                    "status" : "correct",
                     "id": existing_user.id,
                     "username": existing_user.username,
                     "quiz_ids": existing_user.quiz_ids,
@@ -98,7 +99,13 @@ class GetUser(Resource):
                 return responseData, 200
 
             else:
-                return {"message": "Invalid username or password"}, 401
+                responseData = {
+                    "status": "incorrect",
+                    "message": "invalid username or password"
+
+                }
+                print(responseData)
+                return responseData, 200
 
         except Exception as e:
             db.session.rollback()
