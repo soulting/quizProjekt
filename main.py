@@ -88,7 +88,7 @@ class GetUser(Resource):
             existing_user = User.query.filter_by(username=username, password=password).first()
             if existing_user:
                 responseData = {
-                    "status" : "correct",
+                    "status": "correct",
                     "id": existing_user.id,
                     "username": existing_user.username,
                     "quiz_ids": existing_user.quiz_ids,
@@ -186,16 +186,28 @@ class GetQuestions(Resource):
                     data = {
                         "id": question.id,
                         "question": question.question,
-                        "option_A": question.option_a,
-                        "option_B": question.option_b,
-                        "option_C": question.option_c,
-                        "option_D": question.option_d,
+                        "choices": [
+                            {
+                                "lable": "A",
+                                "text": question.option_a
+                            },
+                            {
+                                "lable": "B",
+                                "text": question.option_b
+                            },
+                            {
+                                "lable": "C",
+                                "text": question.option_c
+                            },
+                            {
+                                "lable": "D",
+                                "text": question.option_d
+                            }
+                        ],
                         "answer": question.answer,
                         "explanation": question.explanation
                     }
                     lista_pytan.append(data)
-
-                    # print(data)
 
                 responseData = {
                     "questions": lista_pytan
